@@ -1,3 +1,8 @@
 import { polydraw } from '../../dist'
 
-polydraw({ x: 10, y: 20 }).init()
+polydraw({
+    target: '#root',
+    point: {
+        fill: 'red',
+    },
+}).init()
