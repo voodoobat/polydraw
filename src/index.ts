@@ -1,12 +1,15 @@
-import { SVG } from '@svgdotjs/svg.js'
+import { PointArray, SVG } from '@svgdotjs/svg.js'
 import merge from 'ts-deepmerge'
 import { Config, Polydraw } from './types'
 import { getRelativeCords } from './utilities'
-import { point } from './elements'
+import * as E from './elements'
 import { configDefault } from './constants/configDefault'
 
 export const polydraw = (config: Config): Polydraw => ({
     svg: SVG(),
+    isDrawGuide: false,
+    points: [],
+    guide: null,
     config: merge(configDefault, config),
 
     init() {
@@ -14,8 +17,28 @@ export const polydraw = (config: Config): Polydraw => ({
         this.svg.size(1000, 1000)
 
         this.svg.click((ev: MouseEvent) => {
-            const cords = getRelativeCords(ev)
-            point(this.svg, cords, this.config.point)
+            const cords = getRelativeCords(ev, this.svg.node)
+            const point = E.point(this.svg, cords, this.config.point)
+
+            this.isDrawGuide = true
+            this.points.push(point)
+        })
+
+        this.svg.mousemove((ev: MouseEvent) => {
+            if (!this.isDrawGuide) return
+
+            const { cords } = this.points[this.points.length - 1]
+            const { x, y } = getRelativeCords(ev, this.svg.node)
+            const path = new PointArray([
+                [cords.x, cords.y],
+                [x, y],
+            ])
+
+            if (!this.guide) {
+                return (this.guide = E.guide(this.svg, path, this.config.guide))
+            }
+
+            this.guide.el.plot(path)
         })
     },
 })

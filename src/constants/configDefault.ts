@@ -6,4 +6,8 @@ export const configDefault: Config = {
         size: 5,
         fill: 'blue',
     },
+    guide: {
+        size: 2,
+        color: 'blue',
+    },
 }
