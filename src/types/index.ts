@@ -1,9 +1,11 @@
-import { Point } from '@svgdotjs/svg.js'
+import { Point, PointArray } from '@svgdotjs/svg.js'
 
 export interface Polydraw {
     config: PolydrawConfig
     points: PointElement[]
+    pointsArray: PointArray
     guide: GuideElement | null
+    circuit: CircuitElement | null
     isDrawGuide: boolean
 }
 
@@ -22,6 +24,10 @@ export interface PointElement {
 export interface GuideElement {
     update: (start: Point, end: Point) => void
     remove: () => void
+}
+
+export interface CircuitElement {
+    update: (points: PointArray) => void
 }
 
 export interface PointConfig {

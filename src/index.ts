@@ -1,10 +1,11 @@
-import { SVG } from '@svgdotjs/svg.js'
+import { PointArray, SVG } from '@svgdotjs/svg.js'
 import merge from 'ts-deepmerge'
 import { PolydrawConfig, Polydraw } from './types'
 import { getMouseCords, getRelativeCords } from './utilities'
 import * as E from './elements'
 import { configDefault } from './constants/configDefault'
 import { isCordsInside } from './utilities/isCordsInside'
+import { circuit } from './elements'
 
 export const polydraw = (config: PolydrawConfig) => {
     const svg = SVG()
@@ -12,7 +13,12 @@ export const polydraw = (config: PolydrawConfig) => {
         isDrawGuide: false,
         points: [],
         guide: null,
+        circuit: null,
         config: merge(configDefault, config),
+
+        get pointsArray() {
+            return this.points.map(({ cords }) => cords.toArray()) as PointArray
+        },
     }
 
     svg.addTo(config.target)
@@ -37,6 +43,12 @@ export const polydraw = (config: PolydrawConfig) => {
             } else {
                 const point = E.point(svg, cords, state.config.point)
                 state.points.push(point)
+
+                if (!state.circuit) {
+                    state.circuit = circuit(svg, state.pointsArray)
+                } else {
+                    state.circuit.update(state.pointsArray)
+                }
             }
         }
     })
@@ -52,9 +64,5 @@ export const polydraw = (config: PolydrawConfig) => {
         }
 
         state.guide.update(start, end)
-
-        if (state.points.length > 10) {
-            state.isDrawGuide = false
-        }
     })
 }
