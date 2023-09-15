@@ -16,11 +16,17 @@ export const guide = (
     })
 
     const update = (start: Point, end: Point) => {
-        line.plot([start.toArray(), end.toArray()])
         point.update(end)
+        line.plot([start.toArray(), end.toArray()])
+    }
+
+    const remove = () => {
+        point.remove()
+        line.remove()
     }
 
     return {
         update,
+        remove,
     }
 }

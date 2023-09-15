@@ -16,10 +16,12 @@ export interface PolydrawConfig {
 export interface PointElement {
     cords: Point
     update: (cords: Point) => void
+    remove: () => void
 }
 
 export interface GuideElement {
     update: (start: Point, end: Point) => void
+    remove: () => void
 }
 
 export interface PointConfig {

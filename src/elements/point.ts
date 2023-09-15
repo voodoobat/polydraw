@@ -12,8 +12,13 @@ export const point = (svg: Svg, cords: Point, config: PointConfig) => {
         el.move(...getCenteredCords(cords, size, size).toArray())
     }
 
+    const remove = () => {
+        el.remove()
+    }
+
     return {
         cords,
         update,
+        remove,
     }
 }
