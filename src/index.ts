@@ -1,11 +1,9 @@
 import { PointArray, SVG } from '@svgdotjs/svg.js'
 import merge from 'ts-deepmerge'
 import { PolydrawConfig, Polydraw } from './types'
-import { getMouseCords, getRelativeCords } from './utilities'
+import { getMouseCords, getRelativeCords, isCordsInside } from './utilities'
 import * as E from './elements'
 import { configDefault } from './constants/configDefault'
-import { isCordsInside } from './utilities/isCordsInside'
-import { circuit } from './elements'
 
 export const polydraw = (config: PolydrawConfig) => {
     const svg = SVG()
@@ -45,7 +43,11 @@ export const polydraw = (config: PolydrawConfig) => {
                 state.points.push(point)
 
                 if (!state.circuit) {
-                    state.circuit = circuit(svg, state.pointsArray)
+                    state.circuit = E.circuit(
+                        svg,
+                        state.pointsArray,
+                        state.config.circuit,
+                    )
                 } else {
                     state.circuit.update(state.pointsArray)
                 }
