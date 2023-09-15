@@ -1,44 +1,40 @@
-import { PointArray, SVG } from '@svgdotjs/svg.js'
+import { SVG } from '@svgdotjs/svg.js'
 import merge from 'ts-deepmerge'
-import { Config, Polydraw } from './types'
-import { getRelativeCords } from './utilities'
+import { PolydrawConfig, Polydraw } from './types'
+import { getMouseCords, getRelativeCords } from './utilities'
 import * as E from './elements'
 import { configDefault } from './constants/configDefault'
 
-export const polydraw = (config: Config): Polydraw => ({
-    svg: SVG(),
-    isDrawGuide: false,
-    points: [],
-    guide: null,
-    config: merge(configDefault, config),
+export const polydraw = (config: PolydrawConfig) => {
+    const svg = SVG()
+    const state: Polydraw = {
+        isDrawGuide: false,
+        points: [],
+        guide: null,
+        config: merge(configDefault, config),
+    }
 
-    init() {
-        this.svg.addTo(config.target)
-        this.svg.size(1000, 1000)
+    svg.addTo(config.target)
+    svg.size(1000, 1000)
 
-        this.svg.click((ev: MouseEvent) => {
-            const cords = getRelativeCords(ev, this.svg.node)
-            const point = E.point(this.svg, cords, this.config.point)
+    svg.click((ev: MouseEvent) => {
+        const cords = getRelativeCords(getMouseCords(ev), svg.node)
+        const point = E.point(svg, cords, state.config.point)
 
-            this.isDrawGuide = true
-            this.points.push(point)
-        })
+        state.isDrawGuide = true
+        state.points.push(point)
+    })
 
-        this.svg.mousemove((ev: MouseEvent) => {
-            if (!this.isDrawGuide) return
+    svg.mousemove((ev: MouseEvent) => {
+        if (!state.isDrawGuide) return
 
-            const { cords } = this.points[this.points.length - 1]
-            const { x, y } = getRelativeCords(ev, this.svg.node)
-            const path = new PointArray([
-                [cords.x, cords.y],
-                [x, y],
-            ])
+        const start = state.points[state.points.length - 1].cords
+        const end = getRelativeCords(getMouseCords(ev), svg.node)
 
-            if (!this.guide) {
-                return (this.guide = E.guide(this.svg, path, this.config.guide))
-            }
+        if (!state.guide) {
+            return (state.guide = E.guide(svg, start, end, state.config))
+        }
 
-            this.guide.el.plot(path)
-        })
-    },
-})
+        state.guide.update(start, end)
+    })
+}

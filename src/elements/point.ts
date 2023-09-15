@@ -6,8 +6,14 @@ export const point = (svg: Svg, cords: Point, config: PointConfig) => {
     const { size } = config
     const { x, y } = getCenteredCords(cords, size, size)
 
+    const el = svg.circle(size).move(x, y).fill(config.fill)
+
+    const update = (cords: Point) => {
+        el.move(...getCenteredCords(cords, size, size).toArray())
+    }
+
     return {
-        el: svg.circle(size).move(x, y).fill(config.fill),
-        cords: new Point(x, y),
+        cords,
+        update,
     }
 }

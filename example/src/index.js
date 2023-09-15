@@ -5,4 +5,4 @@ polydraw({
     point: {
         fill: 'red',
     },
-}).init()
+})

@@ -1,6 +1,6 @@
-import { Config } from '../types'
+import { PolydrawConfig } from '../types'
 
-export const configDefault: Config = {
+export const configDefault: PolydrawConfig = {
     target: 'body',
     point: {
         size: 5,
@@ -9,5 +9,6 @@ export const configDefault: Config = {
     guide: {
         size: 2,
         color: 'blue',
+        opacity: 0.2,
     },
 }

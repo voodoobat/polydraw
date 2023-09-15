@@ -1,27 +1,25 @@
-import { Circle, Line, Point, Svg } from '@svgdotjs/svg.js'
+import { Point } from '@svgdotjs/svg.js'
 
 export interface Polydraw {
-    svg: Svg
-    config: Config
+    config: PolydrawConfig
     points: PointElement[]
     guide: GuideElement | null
     isDrawGuide: boolean
-    init(): void
 }
 
-export interface PointElement {
-    el: Circle
-    cords: Point
-}
-
-export interface GuideElement {
-    el: Line
-}
-
-export interface Config {
+export interface PolydrawConfig {
     target: string
     point: PointConfig
     guide: GuideConfig
+}
+
+export interface PointElement {
+    cords: Point
+    update: (cords: Point) => void
+}
+
+export interface GuideElement {
+    update: (start: Point, end: Point) => void
 }
 
 export interface PointConfig {
@@ -32,4 +30,5 @@ export interface PointConfig {
 export interface GuideConfig {
     size: number
     color: string
+    opacity: number
 }
