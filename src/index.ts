@@ -3,7 +3,7 @@ import merge from 'ts-deepmerge'
 import { PolydrawConfig, Polydraw } from './types'
 import { getMouseCords, getRelativeCords, isCordsInside } from './utilities'
 import * as E from './elements'
-import { configDefault } from './constants/configDefault'
+import { configDefault } from './constants'
 
 export const polydraw = (target: string, config: PolydrawConfig) => {
     const svg = SVG()
