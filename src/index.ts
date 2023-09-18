@@ -1,4 +1,5 @@
 import { PointArray, SVG } from '@svgdotjs/svg.js'
+import '@svgdotjs/svg.draggable.js'
 import merge from 'ts-deepmerge'
 import { PolydrawConfig, Polydraw } from './types'
 import { getMouseCords, getRelativeCords, isCordsInside } from './utilities'
@@ -26,8 +27,12 @@ export const polydraw = (target: string, config: PolydrawConfig) => {
     svg.click((ev: MouseEvent) => {
         const cords = getRelativeCords(getMouseCords(ev), svg.node)
         const isStart = !state.points.length
+        const target = ev.target as HTMLElement
 
         state.guide?.remove()
+        if (target.dataset.preventDrawing) {
+            return
+        }
 
         if (isStart) {
             const point = E.point(svg, cords, state.config.point)

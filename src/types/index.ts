@@ -18,6 +18,7 @@ export interface PolydrawConfig {
 }
 
 export interface PointElement {
+    uid: string
     cords: Point
     update: (cords: Point) => void
     remove: () => void
