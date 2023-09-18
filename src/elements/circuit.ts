@@ -6,7 +6,7 @@ export const circuit = (
     points: PointArray,
     config: CircuitConfig,
 ) => {
-    const el = svg
+    const polyline = svg
         .polyline(points)
         .stroke({
             width: config.size,
@@ -16,10 +16,15 @@ export const circuit = (
         .fill('transparent')
 
     const update = (points: PointArray) => {
-        el.plot(points)
+        polyline.plot(points)
+    }
+
+    const remove = () => {
+        polyline.remove()
     }
 
     return {
         update,
+        remove,
     }
 }

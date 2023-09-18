@@ -3,6 +3,7 @@ import { Point, PointArray } from '@svgdotjs/svg.js'
 export interface Polydraw {
     config: PolydrawConfig
     points: PointElement[]
+    polygons: PolygonElement[]
     pointsArray: PointArray
     guide: GuideElement | null
     circuit: CircuitElement | null
@@ -14,6 +15,7 @@ export interface PolydrawConfig {
     point: PointConfig
     guide: GuideConfig
     circuit: CircuitConfig
+    polygon: PolygonConfig
 }
 
 export interface PointElement {
@@ -22,18 +24,14 @@ export interface PointElement {
     remove: () => void
 }
 
-export interface GuideElement {
-    update: (start: Point, end: Point) => void
-    remove: () => void
-}
-
-export interface CircuitElement {
-    update: (points: PointArray) => void
-}
-
 export interface PointConfig {
     size: number
     fill: string
+}
+
+export interface GuideElement {
+    update: (start: Point, end: Point) => void
+    remove: () => void
 }
 
 export interface GuideConfig {
@@ -42,8 +40,22 @@ export interface GuideConfig {
     opacity: number
 }
 
+export interface CircuitElement {
+    update: (points: PointArray) => void
+    remove: () => void
+}
+
 export interface CircuitConfig {
     size: number
+    color: string
+    opacity: number
+}
+
+export interface PolygonElement {
+    uid: string
+}
+
+export interface PolygonConfig {
     color: string
     opacity: number
 }

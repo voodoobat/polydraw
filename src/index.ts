@@ -10,6 +10,7 @@ export const polydraw = (config: PolydrawConfig) => {
     const state: Polydraw = {
         isDrawGuide: false,
         points: [],
+        polygons: [],
         guide: null,
         circuit: null,
         config: merge(configDefault, config),
@@ -26,18 +27,36 @@ export const polydraw = (config: PolydrawConfig) => {
         const cords = getRelativeCords(getMouseCords(ev), svg.node)
         const isStart = !state.points.length
 
+        state.guide?.remove()
+
         if (isStart) {
             const point = E.point(svg, cords, state.config.point)
 
             state.isDrawGuide = true
             state.points.push(point)
         } else {
-            if (isCordsInside(cords, state.points[0].cords)) {
+            const { points, config } = state
+            const isComplete = isCordsInside(
+                cords,
+                points[0].cords,
+                config.point.size,
+            )
+
+            if (isComplete) {
+                const polygon = E.polygon(
+                    svg,
+                    state.pointsArray,
+                    config.polygon,
+                )
+
+                state.polygons.push(polygon)
+
                 state.isDrawGuide = false
                 state.points.forEach((point) => point.remove())
                 state.points = []
-                state.guide?.remove()
-                state.guide = null
+                state.polygons.push()
+                state.circuit?.remove()
+                state.circuit = null
             } else {
                 const point = E.point(svg, cords, state.config.point)
                 state.points.push(point)
@@ -61,10 +80,7 @@ export const polydraw = (config: PolydrawConfig) => {
         const start = state.points[state.points.length - 1].cords
         const end = getRelativeCords(getMouseCords(ev), svg.node)
 
-        if (!state.guide) {
-            return (state.guide = E.guide(svg, start, end, state.config))
-        }
-
-        state.guide.update(start, end)
+        state.guide?.remove()
+        state.guide = E.guide(svg, start, end, state.config)
     })
 }

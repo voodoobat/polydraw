@@ -3,7 +3,7 @@ import { PolydrawConfig } from '../types'
 export const configDefault: PolydrawConfig = {
     target: 'body',
     point: {
-        size: 3,
+        size: 5,
         fill: 'blue',
     },
     guide: {
@@ -14,6 +14,10 @@ export const configDefault: PolydrawConfig = {
     circuit: {
         size: 1,
         color: 'gray',
+        opacity: 0.4,
+    },
+    polygon: {
+        color: 'yellow',
         opacity: 0.4,
     },
 }
