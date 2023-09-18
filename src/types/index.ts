@@ -11,7 +11,6 @@ export interface Polydraw {
 }
 
 export interface PolydrawConfig {
-    target: string
     point: PointConfig
     guide: GuideConfig
     circuit: CircuitConfig
@@ -27,6 +26,7 @@ export interface PointElement {
 export interface PointConfig {
     size: number
     fill: string
+    opacity: number
 }
 
 export interface GuideElement {
@@ -58,4 +58,7 @@ export interface PolygonElement {
 export interface PolygonConfig {
     color: string
     opacity: number
+    point: PointConfig
 }
+
+export interface SceneElement {}

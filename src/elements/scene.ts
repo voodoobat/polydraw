@@ -1,33 +1,32 @@
-import { PointArray, SVG } from '@svgdotjs/svg.js'
-import merge from 'ts-deepmerge'
-import { PolydrawConfig, Polydraw } from './types'
-import { getMouseCords, getRelativeCords, isCordsInside } from './utilities'
-import * as E from './elements'
-import { configDefault } from './constants/configDefault'
+import { PointArray, Svg } from '@svgdotjs/svg.js'
+import { Polydraw, PolydrawConfig } from '../types'
+import { getMouseCords, getRelativeCords, isCordsInside } from '../utilities'
+import * as E from './index'
 
-export const polydraw = (target: string, config: PolydrawConfig) => {
-    const svg = SVG()
+export const scene = (svg: Svg, config: PolydrawConfig) => {
+    const rect = svg
+        .rect(svg.node.clientWidth, svg.node.clientHeight)
+        .attr({
+            fill: 'transparent',
+        })
+        .css('position', 'relative')
+        .css('zIndex', '10')
     const state: Polydraw = {
         isDrawGuide: false,
         points: [],
         polygons: [],
         guide: null,
         circuit: null,
-        config: merge(configDefault, config),
+        config,
 
         get pointsArray() {
             return this.points.map(({ cords }) => cords.toArray()) as PointArray
         },
     }
 
-    svg.addTo(target)
-    svg.size(1000, 1000)
-
-    svg.click((ev: MouseEvent) => {
+    rect.click((ev: MouseEvent) => {
         const cords = getRelativeCords(getMouseCords(ev), svg.node)
         const isStart = !state.points.length
-
-        state.guide?.remove()
 
         if (isStart) {
             const point = E.point(svg, cords, state.config.point)
@@ -74,7 +73,7 @@ export const polydraw = (target: string, config: PolydrawConfig) => {
         }
     })
 
-    svg.mousemove((ev: MouseEvent) => {
+    rect.mousemove((ev: MouseEvent) => {
         if (!state.isDrawGuide) return
 
         const start = state.points[state.points.length - 1].cords
@@ -83,4 +82,6 @@ export const polydraw = (target: string, config: PolydrawConfig) => {
         state.guide?.remove()
         state.guide = E.guide(svg, start, end, state.config)
     })
+
+    return {}
 }

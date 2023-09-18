@@ -1,5 +1,8 @@
 {
     "scripts": {
         "dev": "webpack --watch"
+    },
+    "dependencies": {
+        "polydraw": "file:.."
     }
 }

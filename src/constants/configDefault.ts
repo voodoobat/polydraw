@@ -1,10 +1,10 @@
 import { PolydrawConfig } from '../types'
 
 export const configDefault: PolydrawConfig = {
-    target: 'body',
     point: {
         size: 5,
         fill: 'blue',
+        opacity: 0.2,
     },
     guide: {
         size: 1,
@@ -19,5 +19,10 @@ export const configDefault: PolydrawConfig = {
     polygon: {
         color: 'yellow',
         opacity: 0.4,
+        point: {
+            size: 5,
+            fill: 'yellow',
+            opacity: 0.5,
+        },
     },
 }
