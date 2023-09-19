@@ -5,13 +5,18 @@ import { polydraw } from '../../dist'
     elements: {
         point: {
             size: 10,
-            fill: 'orange',
+            color: 'orange',
         },
         polygon: {
             point: {
                 size: 10,
-                fill: 'green',
+                color: 'green',
             },
+        },
+    },
+    events: {
+        onChange: () => {
+            console.log('change')
         },
     },
 })
