@@ -38,7 +38,7 @@ export const polydraw = (target: string, config: PolydrawConfig) => {
     svg.addTo(target)
     svg.size(1000, 1000)
 
-    svg.mousedown((ev: MouseEvent) => {
+    svg.on('mousedown', (ev) => {
         const cords = getRelativeCords(getMouseCords(ev), svg.node)
         const isStart = !state.points.length
         const target = ev.target as HTMLElement
@@ -94,7 +94,7 @@ export const polydraw = (target: string, config: PolydrawConfig) => {
         }
     })
 
-    svg.mousemove((ev: MouseEvent) => {
+    svg.on('mousemove', (ev) => {
         if (!state.isDrawGuide) return
 
         const start = state.points[state.points.length - 1].cords
@@ -102,6 +102,24 @@ export const polydraw = (target: string, config: PolydrawConfig) => {
 
         state.guide?.remove()
         state.guide = E.guide(svg, start, end, state.config)
+    })
+
+    window.addEventListener('keyup', (ev: KeyboardEvent) => {
+        if (ev.key === 'Escape') {
+            state.isDrawGuide = false
+            state.points.forEach((point) => point.remove())
+            state.points = []
+
+            if (state.guide) {
+                state.guide.remove()
+                state.guide = null
+            }
+
+            if (state.circuit) {
+                state.circuit.remove()
+                state.circuit = null
+            }
+        }
     })
 
     return {

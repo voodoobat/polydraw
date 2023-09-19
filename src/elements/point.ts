@@ -3,11 +3,15 @@ import { getCenteredCords, getRandomId, getRelativeCords } from '../utilities'
 import { PointConfig } from '../types'
 import { setPreventDrawing } from '../utilities/setPreventDrawing'
 
+interface EventTypes {
+    onDrag: ((uid: string, cords: Point) => void) | null
+}
+
 export const point = (
     svg: Svg,
     cords: Point,
     config: PointConfig,
-    onDrag: ((uid: string, cords: Point) => void) | null = null,
+    events: EventTypes = { onDrag: null },
 ) => {
     const uid = getRandomId()
     const { size } = config
@@ -17,7 +21,7 @@ export const point = (
         cords,
     }
 
-    if (onDrag) {
+    if (events.onDrag) {
         setPreventDrawing(el)
         el.draggable()
         el.on('dragmove', (ev) => {
@@ -28,7 +32,8 @@ export const point = (
                 svg.node,
             )
 
-            onDrag(uid, state.cords)
+            // @ts-ignore
+            events.onDrag(uid, state.cords)
         })
     }
 

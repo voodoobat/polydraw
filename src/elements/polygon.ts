@@ -25,15 +25,17 @@ export const polygon = (svg: Svg, path: PointArray, config: PolygonConfig) => {
     })
 
     state.points = path.map((xy) => {
-        return E.point(svg, new Point(xy), config.point, (uid, cords) => {
-            const found = state.points.find((point) => {
-                return point.uid === uid
-            })
+        return E.point(svg, new Point(xy), config.point, {
+            onDrag: (uid, cords) => {
+                const found = state.points.find((point) => {
+                    return point.uid === uid
+                })
 
-            if (found) {
-                found.cords = cords
-                poly.plot(state.path)
-            }
+                if (found) {
+                    found.cords = cords
+                    poly.plot(state.path)
+                }
+            },
         })
     })
 
