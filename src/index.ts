@@ -1,13 +1,20 @@
 import { PointArray, SVG } from '@svgdotjs/svg.js'
 import '@svgdotjs/svg.draggable.js'
 import merge from 'ts-deepmerge'
-import { PolydrawConfig, Polydraw } from './types'
-import { getMouseCords, getRelativeCords, isCordsInside } from './utilities'
+import { PolydrawConfig, Polydraw, PolydrawData } from './types'
+import {
+    getMouseCords,
+    getRandomId,
+    getRelativeCords,
+    isCordsInside,
+} from './utilities'
 import * as E from './elements'
 import { configDefault } from './constants'
+import { polygon2object } from './utilities/polygon2object'
 
 export const polydraw = (target: string, config: PolydrawConfig) => {
     const svg = SVG()
+    const uid = getRandomId()
     const state: Polydraw = {
         isDrawGuide: false,
         points: [],
@@ -18,6 +25,13 @@ export const polydraw = (target: string, config: PolydrawConfig) => {
 
         get pointsArray() {
             return this.points.map(({ cords }) => cords.toArray()) as PointArray
+        },
+
+        get data(): PolydrawData {
+            return {
+                uid,
+                objects: state.polygons.map(polygon2object),
+            }
         },
     }
 
@@ -36,7 +50,7 @@ export const polydraw = (target: string, config: PolydrawConfig) => {
         }
 
         if (isStart) {
-            const point = E.point(svg, cords, state.config.point)
+            const point = E.point(svg, cords, state.config.elements.point)
 
             state.isDrawGuide = true
             state.points.push(point)
@@ -45,14 +59,14 @@ export const polydraw = (target: string, config: PolydrawConfig) => {
             const isComplete = isCordsInside(
                 cords,
                 points[0].cords,
-                config.point.size,
+                config.elements.point.size,
             )
 
             if (isComplete) {
                 const polygon = E.polygon(
                     svg,
                     state.pointsArray,
-                    config.polygon,
+                    config.elements.polygon,
                 )
 
                 state.polygons.push(polygon)
@@ -64,14 +78,14 @@ export const polydraw = (target: string, config: PolydrawConfig) => {
                 state.circuit?.remove()
                 state.circuit = null
             } else {
-                const point = E.point(svg, cords, state.config.point)
+                const point = E.point(svg, cords, state.config.elements.point)
                 state.points.push(point)
 
                 if (!state.circuit) {
                     state.circuit = E.circuit(
                         svg,
                         state.pointsArray,
-                        state.config.circuit,
+                        state.config.elements.circuit,
                     )
                 } else {
                     state.circuit.update(state.pointsArray)
@@ -89,4 +103,8 @@ export const polydraw = (target: string, config: PolydrawConfig) => {
         state.guide?.remove()
         state.guide = E.guide(svg, start, end, state.config)
     })
+
+    return {
+        data: state.data,
+    }
 }

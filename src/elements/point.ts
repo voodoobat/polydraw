@@ -12,7 +12,7 @@ export const point = (
     const uid = getRandomId()
     const { size } = config
     const { x, y } = getCenteredCords(cords, size, size)
-    const el = svg.circle(size).move(x, y).fill(config.fill)
+    const el = svg.circle(size).move(x, y).fill(config.color)
     const state: { cords: Point } = {
         cords,
     }

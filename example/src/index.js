@@ -1,15 +1,17 @@
 // import { polydraw } from 'polydraw'
 import { polydraw } from '../../dist'
 
-polydraw('#root', {
-    point: {
-        size: 10,
-        fill: 'orange',
-    },
-    polygon: {
+/*const draw = */ polydraw('#root', {
+    elements: {
         point: {
             size: 10,
-            fill: 'green',
+            fill: 'orange',
+        },
+        polygon: {
+            point: {
+                size: 10,
+                fill: 'green',
+            },
         },
     },
 })

@@ -8,11 +8,11 @@ export const guide = (
     end: Point,
     config: PolydrawConfig,
 ) => {
-    const point = E.point(svg, end, config.point)
+    const point = E.point(svg, end, config.elements.point)
     const line = svg.line([start.toArray(), end.toArray()]).stroke({
-        width: config.guide.size,
-        color: config.guide.color,
-        opacity: config.guide.opacity,
+        width: config.elements.guide.size,
+        color: config.elements.guide.color,
+        opacity: config.elements.guide.opacity,
     })
 
     const update = (start: Point, end: Point) => {

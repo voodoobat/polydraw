@@ -5,16 +5,32 @@ export interface Polydraw {
     points: PointElement[]
     polygons: PolygonElement[]
     pointsArray: PointArray
+    data: PolydrawData
     guide: GuideElement | null
     circuit: CircuitElement | null
     isDrawGuide: boolean
 }
 
 export interface PolydrawConfig {
-    point: PointConfig
-    guide: GuideConfig
-    circuit: CircuitConfig
-    polygon: PolygonConfig
+    elements: {
+        point: PointConfig
+        guide: GuideConfig
+        circuit: CircuitConfig
+        polygon: PolygonConfig
+    }
+    events: {
+        onChange: (() => void) | null
+    }
+}
+
+export interface PolydrawData {
+    uid: string
+    objects: PolydrawDataObject[]
+}
+
+export interface PolydrawDataObject {
+    uid: string
+    points: Point[]
 }
 
 export interface PointElement {
@@ -26,7 +42,7 @@ export interface PointElement {
 
 export interface PointConfig {
     size: number
-    fill: string
+    color: string
     opacity: number
 }
 
