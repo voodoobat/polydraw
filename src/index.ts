@@ -24,12 +24,13 @@ export const polydraw = (target: string, config: PolydrawConfig) => {
     svg.addTo(target)
     svg.size(1000, 1000)
 
-    svg.click((ev: MouseEvent) => {
+    svg.mousedown((ev: MouseEvent) => {
         const cords = getRelativeCords(getMouseCords(ev), svg.node)
         const isStart = !state.points.length
         const target = ev.target as HTMLElement
 
         state.guide?.remove()
+
         if (target.dataset.preventDrawing) {
             return
         }

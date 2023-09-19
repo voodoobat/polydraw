@@ -14,9 +14,15 @@ export const polygon = (svg: Svg, path: PointArray, config: PolygonConfig) => {
     }
 
     const poly = svg.polygon(path).fill(config.color).opacity(config.opacity)
+    setPreventDrawing(poly)
 
     poly.draggable()
-    setPreventDrawing(poly)
+    poly.on('dragmove', () => {
+        poly.array().forEach((xy, key) => {
+            state.points[key].update(new Point(...xy))
+            state.points[key].cords = new Point(...xy)
+        })
+    })
 
     state.points = path.map((xy) => {
         return E.point(svg, new Point(xy), config.point, (uid, cords) => {
