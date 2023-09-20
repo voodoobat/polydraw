@@ -21,10 +21,10 @@ export const polydraw = (target: string, config: PolydrawConfig) => {
             return this.points.map(({ cords }) => cords.toArray()) as PointArray
         },
         get data(): PolydrawData {
-            const objects = this.polygons.map(U.polygon2object)
+            const polygon = this.polygons.map(U.polygon2object)
             return {
                 uid,
-                objects,
+                polygon,
             }
         },
     }
@@ -60,11 +60,9 @@ export const polydraw = (target: string, config: PolydrawConfig) => {
                 H.placePolygon(svg, state, config.elements.polygon)
                 H.clearScene(state)
 
-                setTimeout(() => {
-                    if (config.events.onChange) {
-                        config.events.onChange()
-                    }
-                }, 0)
+                if (config.events.onChange) {
+                    config.events.onChange()
+                }
             } else {
                 H.continueDrawing(svg, state, cords)
             }
@@ -91,6 +89,8 @@ export const polydraw = (target: string, config: PolydrawConfig) => {
     })
 
     return {
-        data: () => state.data,
+        get data() {
+            return state.data
+        },
     }
 }

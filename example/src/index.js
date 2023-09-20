@@ -16,7 +16,7 @@ const draw = polydraw('#root', {
     },
     events: {
         onChange: () => {
-            console.log(draw.data())
+            console.log(draw.data)
         },
     },
 })

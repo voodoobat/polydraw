@@ -25,7 +25,7 @@ export interface PolydrawConfig {
 
 export interface PolydrawData {
     uid: string
-    objects: PolydrawDataObject[]
+    polygon: PolydrawDataObject[]
 }
 
 export interface PolydrawDataObject {
