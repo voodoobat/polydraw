@@ -13,6 +13,8 @@ import { configDefault } from './constants'
 import { polygon2object } from './utilities/polygon2object'
 import { clearScene } from './helpers/clearScene'
 import { placePolygon } from './helpers/placePolygon'
+import { continueDrawing } from './helpers/continueDrawing'
+import { startDrawing } from './helpers/startDrawing'
 
 export const polydraw = (target: string, config: PolydrawConfig) => {
     const svg = SVG()
@@ -54,10 +56,7 @@ export const polydraw = (target: string, config: PolydrawConfig) => {
         }
 
         if (isStart) {
-            const point = E.point(svg, cords, state.config.elements.point)
-
-            state.isDrawGuide = true
-            state.points.push(point)
+            startDrawing(svg, state, cords)
         } else {
             const { points, config } = state
             const isComplete = isCordsInside(
@@ -70,18 +69,7 @@ export const polydraw = (target: string, config: PolydrawConfig) => {
                 placePolygon(svg, state, config.elements.polygon)
                 clearScene(state)
             } else {
-                const point = E.point(svg, cords, state.config.elements.point)
-                state.points.push(point)
-
-                if (!state.circuit) {
-                    state.circuit = E.circuit(
-                        svg,
-                        state.pointsArray,
-                        state.config.elements.circuit,
-                    )
-                } else {
-                    state.circuit.update(state.pointsArray)
-                }
+                continueDrawing(svg, state, cords)
             }
         }
     })
