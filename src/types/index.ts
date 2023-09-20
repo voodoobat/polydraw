@@ -70,6 +70,7 @@ export interface CircuitConfig {
 
 export interface PolygonElement {
     uid: string
+    points: PointElement[]
 }
 
 export interface PolygonConfig {
@@ -77,5 +78,3 @@ export interface PolygonConfig {
     opacity: number
     point: PointConfig
 }
-
-export interface SceneElement {}

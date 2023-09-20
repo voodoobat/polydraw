@@ -41,5 +41,6 @@ export const polygon = (svg: Svg, path: PointArray, config: PolygonConfig) => {
 
     return {
         uid,
+        points: state.points,
     }
 }
