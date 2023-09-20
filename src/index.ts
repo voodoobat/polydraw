@@ -57,11 +57,20 @@ export const polydraw = (target: string, config: PolydrawConfig) => {
             )
 
             if (isComplete) {
-                H.placePolygon(svg, state, config.elements.polygon)
+                H.placePolygon(svg, state, config.elements.polygon, (uid) => {
+                    const changed = state.polygons.find((obj) => {
+                        return obj.uid === uid
+                    })
+
+                    if (changed && config.events.onPolygonChange) {
+                        config.events.onPolygonChange(changed)
+                    }
+                })
                 H.clearScene(state)
 
-                if (config.events.onChange) {
-                    config.events.onChange()
+                if (config.events.onPolygonCreate) {
+                    const polygon = state.polygons[state.polygons.length - 1]
+                    config.events.onPolygonCreate(polygon)
                 }
             } else {
                 H.continueDrawing(svg, state, cords)

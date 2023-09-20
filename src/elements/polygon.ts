@@ -4,7 +4,16 @@ import { getRandomId } from '../utilities'
 import * as E from '.'
 import { setPreventDrawing } from '../helpers/setPreventDrawing'
 
-export const polygon = (svg: Svg, path: PointArray, config: PolygonConfig) => {
+interface EventTypes {
+    onDragComplete?: ((uid: string) => void) | null
+}
+
+export const polygon = (
+    svg: Svg,
+    path: PointArray,
+    config: PolygonConfig,
+    events: EventTypes = {},
+) => {
     const uid = getRandomId()
     const state: { points: PointElement[]; path: PointArray } = {
         points: [],
@@ -24,6 +33,14 @@ export const polygon = (svg: Svg, path: PointArray, config: PolygonConfig) => {
         })
     })
 
+    if (events.onDragComplete) {
+        poly.on('dragend', () => {
+            if (typeof events.onDragComplete === 'function') {
+                events.onDragComplete(uid)
+            }
+        })
+    }
+
     state.points = path.map((xy) => {
         return E.point(svg, new Point(xy), config.point, {
             onDrag: (uid, cords) => {
@@ -34,6 +51,11 @@ export const polygon = (svg: Svg, path: PointArray, config: PolygonConfig) => {
                 if (found) {
                     found.cords = cords
                     poly.plot(state.path)
+                }
+            },
+            onDragComplete: () => {
+                if (typeof events.onDragComplete === 'function') {
+                    events.onDragComplete(uid)
                 }
             },
         })

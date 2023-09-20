@@ -6,6 +6,13 @@ export const placePolygon = (
     svg: Svg,
     state: Polydraw,
     config: PolygonConfig,
+    onChange: ((uid: string) => void) | null,
 ) => {
-    state.polygons.push(E.polygon(svg, state.pointsArray, config))
+    state.polygons.push(
+        E.polygon(svg, state.pointsArray, config, {
+            onDragComplete: (uid) => {
+                if (onChange) onChange(uid)
+            },
+        }),
+    )
 }

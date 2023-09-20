@@ -4,14 +4,15 @@ import { PointConfig } from '../types'
 import { setPreventDrawing } from '../helpers/setPreventDrawing'
 
 interface EventTypes {
-    onDrag: ((uid: string, cords: Point) => void) | null
+    onDrag?: ((uid: string, cords: Point) => void) | null
+    onDragComplete?: (() => void) | null
 }
 
 export const point = (
     svg: Svg,
     cords: Point,
     config: PointConfig,
-    events: EventTypes = { onDrag: null },
+    events: EventTypes = {},
 ) => {
     const uid = getRandomId()
     const { size } = config
@@ -34,6 +35,14 @@ export const point = (
 
             // @ts-ignore
             events.onDrag(uid, state.cords)
+        })
+    }
+
+    if (events.onDragComplete) {
+        el.on('dragend', () => {
+            if (typeof events.onDragComplete === 'function') {
+                events.onDragComplete()
+            }
         })
     }
 

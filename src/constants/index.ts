@@ -28,6 +28,7 @@ export const configDefault: PolydrawConfig = {
         },
     },
     events: {
-        onChange: null,
+        onPolygonChange: null,
+        onPolygonCreate: null,
     },
 }

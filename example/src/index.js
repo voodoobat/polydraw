@@ -15,8 +15,12 @@ const draw = polydraw('#root', {
         },
     },
     events: {
-        onChange: () => {
-            console.log(draw.data)
+        onPolygonCreate: (polygon) => {
+            console.log('CREATE', polygon, draw)
+        },
+        onPolygonChange: (polygon) => {
+            alert('Change')
+            console.log('CHANGE', polygon, draw)
         },
     },
 })

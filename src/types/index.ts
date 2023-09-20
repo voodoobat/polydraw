@@ -19,7 +19,8 @@ export interface PolydrawConfig {
         polygon: PolygonConfig
     }
     events: {
-        onChange: (() => void) | null
+        onPolygonChange: ((polygon: PolygonElement) => void) | null
+        onPolygonCreate: ((polygon: PolygonElement) => void) | null
     }
 }
 
