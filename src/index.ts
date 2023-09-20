@@ -22,15 +22,14 @@ export const polydraw = (target: string, config: PolydrawConfig) => {
         guide: null,
         circuit: null,
         config: merge(configDefault, config),
-
         get pointsArray() {
             return this.points.map(({ cords }) => cords.toArray()) as PointArray
         },
-
         get data(): PolydrawData {
+            const objects = this.polygons.map(polygon2object)
             return {
                 uid,
-                objects: state.polygons.map(polygon2object),
+                objects,
             }
         },
     }
@@ -39,7 +38,10 @@ export const polydraw = (target: string, config: PolydrawConfig) => {
     svg.size(1000, 1000)
 
     svg.on('mousedown', (ev) => {
-        const cords = getRelativeCords(getMouseCords(ev), svg.node)
+        const cords = getRelativeCords(
+            getMouseCords(ev as MouseEvent),
+            svg.node,
+        )
         const isStart = !state.points.length
         const target = ev.target as HTMLElement
 
@@ -98,7 +100,7 @@ export const polydraw = (target: string, config: PolydrawConfig) => {
         if (!state.isDrawGuide) return
 
         const start = state.points[state.points.length - 1].cords
-        const end = getRelativeCords(getMouseCords(ev), svg.node)
+        const end = getRelativeCords(getMouseCords(ev as MouseEvent), svg.node)
 
         state.guide?.remove()
         state.guide = E.guide(svg, start, end, state.config)
