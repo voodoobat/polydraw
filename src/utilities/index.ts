@@ -3,6 +3,7 @@ import { getMouseCords } from './getMouseCords'
 import { getRelativeCords } from './getRelativeCords'
 import { getRandomId } from './getRandomId'
 import { isCordsInside } from './isCordsInside'
+import { polygon2object } from './polygon2object'
 
 export {
     getCenteredCords,
@@ -10,4 +11,5 @@ export {
     getRelativeCords,
     getRandomId,
     isCordsInside,
+    polygon2object,
 }
