@@ -11,7 +11,7 @@ import {
 import * as E from './elements'
 import { configDefault } from './constants'
 import { polygon2object } from './utilities/polygon2object'
-import { clearScene } from './utilities/clearScene'
+import { clearScene } from './helpers/clearScene'
 
 export const polydraw = (target: string, config: PolydrawConfig) => {
     const svg = SVG()

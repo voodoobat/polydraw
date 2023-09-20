@@ -1,7 +1,7 @@
 import { Point, Svg } from '@svgdotjs/svg.js'
 import { getCenteredCords, getRandomId, getRelativeCords } from '../utilities'
 import { PointConfig } from '../types'
-import { setPreventDrawing } from '../utilities/setPreventDrawing'
+import { setPreventDrawing } from '../helpers/setPreventDrawing'
 
 interface EventTypes {
     onDrag: ((uid: string, cords: Point) => void) | null

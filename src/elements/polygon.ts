@@ -2,7 +2,7 @@ import { Point, PointArray, Svg } from '@svgdotjs/svg.js'
 import { PointElement, PolygonConfig } from '../types'
 import { getRandomId } from '../utilities'
 import * as E from '.'
-import { setPreventDrawing } from '../utilities/setPreventDrawing'
+import { setPreventDrawing } from '../helpers/setPreventDrawing'
 
 export const polygon = (svg: Svg, path: PointArray, config: PolygonConfig) => {
     const uid = getRandomId()
