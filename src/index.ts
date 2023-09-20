@@ -12,6 +12,7 @@ import * as E from './elements'
 import { configDefault } from './constants'
 import { polygon2object } from './utilities/polygon2object'
 import { clearScene } from './helpers/clearScene'
+import { placePolygon } from './helpers/placePolygon'
 
 export const polydraw = (target: string, config: PolydrawConfig) => {
     const svg = SVG()
@@ -66,13 +67,7 @@ export const polydraw = (target: string, config: PolydrawConfig) => {
             )
 
             if (isComplete) {
-                const polygon = E.polygon(
-                    svg,
-                    state.pointsArray,
-                    config.elements.polygon,
-                )
-
-                state.polygons.push(polygon)
+                placePolygon(svg, state, config.elements.polygon)
                 clearScene(state)
             } else {
                 const point = E.point(svg, cords, state.config.elements.point)
