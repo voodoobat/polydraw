@@ -59,6 +59,12 @@ export const polydraw = (target: string, config: PolydrawConfig) => {
             if (isComplete) {
                 H.placePolygon(svg, state, config.elements.polygon)
                 H.clearScene(state)
+
+                setTimeout(() => {
+                    if (config.events.onChange) {
+                        config.events.onChange()
+                    }
+                }, 0)
             } else {
                 H.continueDrawing(svg, state, cords)
             }
@@ -85,6 +91,6 @@ export const polydraw = (target: string, config: PolydrawConfig) => {
     })
 
     return {
-        data: state.data,
+        data: () => state.data,
     }
 }

@@ -1,7 +1,7 @@
 // import { polydraw } from 'polydraw'
 import { polydraw } from '../../dist'
 
-/*const draw = */ polydraw('#root', {
+const draw = polydraw('#root', {
     elements: {
         point: {
             size: 10,
@@ -16,7 +16,7 @@ import { polydraw } from '../../dist'
     },
     events: {
         onChange: () => {
-            console.log('change')
+            console.log(draw.data())
         },
     },
 })
