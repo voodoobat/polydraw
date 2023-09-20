@@ -11,6 +11,7 @@ import {
 import * as E from './elements'
 import { configDefault } from './constants'
 import { polygon2object } from './utilities/polygon2object'
+import { clearScene } from './utilities/clearScene'
 
 export const polydraw = (target: string, config: PolydrawConfig) => {
     const svg = SVG()
@@ -72,13 +73,7 @@ export const polydraw = (target: string, config: PolydrawConfig) => {
                 )
 
                 state.polygons.push(polygon)
-
-                state.isDrawGuide = false
-                state.points.forEach((point) => point.remove())
-                state.points = []
-                state.polygons.push()
-                state.circuit?.remove()
-                state.circuit = null
+                clearScene(state)
             } else {
                 const point = E.point(svg, cords, state.config.elements.point)
                 state.points.push(point)
@@ -108,19 +103,7 @@ export const polydraw = (target: string, config: PolydrawConfig) => {
 
     window.addEventListener('keyup', (ev: KeyboardEvent) => {
         if (ev.key === 'Escape') {
-            state.isDrawGuide = false
-            state.points.forEach((point) => point.remove())
-            state.points = []
-
-            if (state.guide) {
-                state.guide.remove()
-                state.guide = null
-            }
-
-            if (state.circuit) {
-                state.circuit.remove()
-                state.circuit = null
-            }
+            clearScene(state)
         }
     })
 
