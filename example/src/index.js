@@ -1,7 +1,7 @@
 // import { polydraw } from 'polydraw'
 import { polydraw } from '../../dist'
 
-polydraw('#root', '/public/img.jpg', {
+const draw = polydraw('#image-1', '/public/img.jpg', {
     elements: {
         point: {
             size: 10,
@@ -21,5 +21,13 @@ polydraw('#root', '/public/img.jpg', {
         // onPolygonChange: (polygon) => {
         //     console.log('CHANGE', polygon, draw)
         // },
+    },
+})
+
+polydraw('#image-2', '/public/img.jpg', {
+    events: {
+        onPolygonCreate: () => {
+            console.log('create')
+        },
     },
 })

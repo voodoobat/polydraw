@@ -10,14 +10,13 @@ import * as H from './helpers'
 export const polydraw = async (
     target: string,
     img: string,
-    config: PolydrawConfig,
+    config: Partial<PolydrawConfig> = {},
 ) => {
     const svg = SVG()
-    const uid = U.getRandomId()
     const root = document.querySelector(target) as HTMLElement
     const image = (await U.getImage(img)) as HTMLImageElement
     const state: Polydraw = {
-        config: merge(configDefault, config),
+        config: merge(configDefault, config) as PolydrawConfig,
         isDrawGuide: false,
         points: [],
         polygons: [],
@@ -30,7 +29,6 @@ export const polydraw = async (
         get data(): PolydrawData {
             const polygon = this.polygons.map(U.polygon2object)
             return {
-                uid,
                 polygon,
             }
         },
@@ -68,28 +66,32 @@ export const polydraw = async (
         if (isStart) {
             H.startDrawing(svg, state, cords)
         } else {
-            const { points, config } = state
             const isComplete = U.isCordsInside(
                 cords,
-                points[0].cords,
-                config.elements.point.size,
+                state.points[0].cords,
+                state.config.elements.point.size,
             )
 
             if (isComplete) {
-                H.placePolygon(svg, state, config.elements.polygon, (uid) => {
-                    const changed = state.polygons.find((obj) => {
-                        return obj.uid === uid
-                    })
+                H.placePolygon(
+                    svg,
+                    state,
+                    state.config.elements.polygon,
+                    (uid) => {
+                        const changed = state.polygons.find((obj) => {
+                            return obj.uid === uid
+                        })
 
-                    if (changed && config.events.onPolygonChange) {
-                        config.events.onPolygonChange(changed)
-                    }
-                })
+                        if (changed && state.config.events?.onPolygonChange) {
+                            state.config.events.onPolygonChange(changed)
+                        }
+                    },
+                )
                 H.clearScene(state)
 
-                if (config.events.onPolygonCreate) {
+                if (state.config.events.onPolygonCreate) {
                     const polygon = state.polygons[state.polygons.length - 1]
-                    config.events.onPolygonCreate(polygon)
+                    state.config.events.onPolygonCreate(polygon)
                 }
             } else {
                 H.continueDrawing(svg, state, cords)
@@ -111,6 +113,7 @@ export const polydraw = async (
     })
 
     svg.on('menu', (ev) => {
+        // @ts-ignore
         const { cords, uid } = ev.detail
         const menuConfig = state.config.elements.menu
 

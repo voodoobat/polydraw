@@ -8,18 +8,19 @@
         body {
             background: #efefef;
             font-family: monospace;
-        }
-        #root {
-            margin: 2em;
-            background: #fff;
+            padding: 2em;
         }
         img {
             max-width: 100%;
         }
+        .canvas + .canvas {
+            margin-top: 1em;
+        }
     </style>
 </head>
 <body>
-    <div id="root"></div>
+    <div class="canvas" id="image-1"></div>
+    <div class="canvas" id="image-2"></div>
     <script src="./dist/index.js"></script>
 </body>
 </html>

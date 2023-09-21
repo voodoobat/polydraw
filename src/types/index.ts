@@ -27,12 +27,10 @@ export interface PolydrawConfig {
 }
 
 export interface PolydrawData {
-    uid: string
     polygon: PolydrawDataObject[]
 }
 
 export interface PolydrawDataObject {
-    uid: string
     points: Point[]
 }
 
