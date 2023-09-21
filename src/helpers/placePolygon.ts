@@ -8,5 +8,5 @@ export const placePolygon = (
     points: PointArray,
     config: PolygonConfig,
 ) => {
-    state.polygons.push(E.polygon(svg, points, config))
+    state.polygons.push(E.polygon(svg, points, state, config))
 }

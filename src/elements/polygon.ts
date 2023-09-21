@@ -1,10 +1,15 @@
 import { Point, PointArray, Svg } from '@svgdotjs/svg.js'
-import { PointElement, PolygonConfig } from '../types'
+import { PointElement, Polydraw, PolygonConfig } from '../types'
 import * as U from '../utilities'
 import * as E from '.'
-import { setPreventDrawing } from '../helpers'
+import * as H from '../helpers'
 
-export const polygon = (svg: Svg, path: PointArray, config: PolygonConfig) => {
+export const polygon = (
+    svg: Svg,
+    path: PointArray,
+    rootState: Polydraw,
+    config: PolygonConfig,
+) => {
     const uid = U.getRandomId()
     const state: {
         points: PointElement[]
@@ -17,13 +22,16 @@ export const polygon = (svg: Svg, path: PointArray, config: PolygonConfig) => {
     }
 
     const poly = svg.polygon(path).fill(config.color).opacity(config.opacity)
-    setPreventDrawing(poly)
+    H.setPreventDrawing(poly)
 
     setTimeout(() => {
         svg.fire('polygonCreate', { uid })
     }, 0)
 
     poly.draggable()
+    poly.on('click', () => {
+        H.removeMenu(rootState)
+    })
     poly.on('dragmove', () => {
         poly.array().forEach((xy, key) => {
             state.points[key].update(new Point(...xy))
