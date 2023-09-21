@@ -41,5 +41,6 @@ export const configDefault: PolydrawConfig = {
     events: {
         onPolygonChange: null,
         onPolygonCreate: null,
+        onSceneChange: null,
     },
 }
