@@ -1,5 +1,3 @@
-import { Svg } from '@svgdotjs/svg.js'
-
-export const getImageScale = (image: HTMLImageElement, svg: Svg) => {
-    return image.naturalWidth / Number(svg.width())
+export const getImageScale = (image: HTMLImageElement, root: HTMLElement) => {
+    return image.naturalWidth / root.clientWidth
 }

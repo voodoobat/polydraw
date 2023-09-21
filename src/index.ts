@@ -22,6 +22,7 @@ export const polydraw = async (
     const image = (await U.getImage(img)) as HTMLImageElement
     const state: Polydraw = {
         config: merge(configDefault, config) as PolydrawConfig,
+        scale: U.getImageScale(image, root),
         isDrawGuide: false,
         points: [],
         polygons: [],

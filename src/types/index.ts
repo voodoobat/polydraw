@@ -2,6 +2,7 @@ import { Point, PointArray } from '@svgdotjs/svg.js'
 
 export interface Polydraw {
     config: PolydrawConfig
+    scale: number
     points: PointElement[]
     polygons: PolygonElement[]
     pointsArray: PointArray
