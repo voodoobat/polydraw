@@ -3,6 +3,8 @@ export const getImage = (url: string) => {
         const image = new Image()
 
         image.src = url
+        image.style.display = 'block'
+
         image.addEventListener('load', () => {
             resolve(image)
         })

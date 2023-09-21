@@ -8,6 +8,7 @@ export interface Polydraw {
     data: PolydrawData
     guide: GuideElement | null
     circuit: CircuitElement | null
+    menu: MenuElement | null
     isDrawGuide: boolean
 }
 
@@ -17,6 +18,7 @@ export interface PolydrawConfig {
         guide: GuideConfig
         circuit: CircuitConfig
         polygon: PolygonConfig
+        menu: MenuConfig
     }
     events: {
         onPolygonChange: ((polygon: PolygonElement) => void) | null
@@ -72,10 +74,21 @@ export interface CircuitConfig {
 export interface PolygonElement {
     uid: string
     points: PointElement[]
+    remove: () => void
 }
 
 export interface PolygonConfig {
     color: string
     opacity: number
     point: PointConfig
+}
+
+export interface MenuElement {
+    remove: () => void
+}
+
+export interface MenuConfig {
+    style: {
+        [key: string]: string
+    }
 }

@@ -2,6 +2,7 @@ import { Point, PointArray, Svg } from '@svgdotjs/svg.js'
 import { PointElement, PolygonConfig } from '../types'
 import * as U from '../utilities'
 import * as E from '.'
+import { setPreventDrawing } from '../helpers'
 
 interface EventTypes {
     onDragComplete?: ((uid: string) => void) | null
@@ -26,6 +27,7 @@ export const polygon = (
     }
 
     const poly = svg.polygon(path).fill(config.color).opacity(config.opacity)
+    setPreventDrawing(poly)
 
     poly.draggable()
     poly.on('dragmove', () => {
@@ -44,6 +46,16 @@ export const polygon = (
         if (events.onDragComplete) {
             events.onDragComplete(uid)
         }
+    })
+
+    poly.node.addEventListener('contextmenu', (ev) => {
+        ev.preventDefault()
+        const cords = U.getRelativeCords(
+            U.getMouseCords(ev as MouseEvent),
+            svg.node,
+        )
+
+        svg.fire('menu', { uid, cords })
     })
 
     state.points = path.map((xy) => {
@@ -66,8 +78,14 @@ export const polygon = (
         })
     })
 
+    const remove = () => {
+        poly.remove()
+        state.points.forEach((point) => point.remove())
+    }
+
     return {
         uid,
         points: state.points,
+        remove,
     }
 }

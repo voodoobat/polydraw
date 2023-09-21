@@ -14,15 +14,16 @@ export const polydraw = async (
 ) => {
     const svg = SVG()
     const uid = U.getRandomId()
-    const root = document.querySelector(target)
+    const root = document.querySelector(target) as HTMLElement
     const image = (await U.getImage(img)) as HTMLImageElement
     const state: Polydraw = {
+        config: merge(configDefault, config),
         isDrawGuide: false,
         points: [],
         polygons: [],
         guide: null,
         circuit: null,
-        config: merge(configDefault, config),
+        menu: null,
         get pointsArray() {
             return this.points.map(({ cords }) => cords.toArray()) as PointArray
         },
@@ -52,6 +53,9 @@ export const polydraw = async (
             U.getMouseCords(ev as MouseEvent),
             svg.node,
         )
+
+        H.removeMenu(state)
+
         const isStart = !state.points.length
         const target = ev.target as HTMLElement
 
@@ -104,6 +108,26 @@ export const polydraw = async (
 
         state.guide?.remove()
         state.guide = E.guide(svg, start, end, state.config)
+    })
+
+    svg.on('menu', (ev) => {
+        const { cords, uid } = ev.detail
+        const menuConfig = state.config.elements.menu
+
+        state.menu = E.menu(root, cords, menuConfig, () => {
+            const key = state.polygons.findIndex((polygon) => {
+                return polygon.uid === uid
+            })
+
+            if (state.polygons[key]) {
+                state.polygons[key].remove()
+                state.polygons = state.polygons.filter((polygon) => {
+                    return polygon.uid !== uid
+                })
+
+                H.removeMenu(state)
+            }
+        })
     })
 
     window.addEventListener('keyup', (ev: KeyboardEvent) => {

@@ -26,6 +26,16 @@ export const configDefault: PolydrawConfig = {
                 opacity: 0.5,
             },
         },
+        menu: {
+            style: {
+                fontSize: '0.8em',
+                padding: '0.5em 1em',
+                lineHeight: '1',
+                cursor: 'pointer',
+                backgroundColor: 'white',
+                userSelect: 'none',
+            },
+        },
     },
     events: {
         onPolygonChange: null,
