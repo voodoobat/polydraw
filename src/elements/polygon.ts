@@ -2,7 +2,6 @@ import { Point, PointArray, Svg } from '@svgdotjs/svg.js'
 import { PointElement, PolygonConfig } from '../types'
 import * as U from '../utilities'
 import * as E from '.'
-import { setPreventDrawing } from '../helpers'
 
 interface EventTypes {
     onDragComplete?: ((uid: string) => void) | null

@@ -7,9 +7,15 @@ import * as U from './utilities'
 import * as E from './elements'
 import * as H from './helpers'
 
-export const polydraw = (target: string, config: PolydrawConfig) => {
+export const polydraw = async (
+    target: string,
+    img: string,
+    config: PolydrawConfig,
+) => {
     const svg = SVG()
     const uid = U.getRandomId()
+    const root = document.querySelector(target)
+    const image = (await U.getImage(img)) as HTMLImageElement
     const state: Polydraw = {
         isDrawGuide: false,
         points: [],
@@ -29,8 +35,17 @@ export const polydraw = (target: string, config: PolydrawConfig) => {
         },
     }
 
+    if (!root) return
+
+    root.style.position = 'relative'
+    root.appendChild(image)
+
     svg.addTo(target)
-    svg.size(1000, 1000)
+    svg.size(image.width, image.height)
+
+    svg.node.style.position = 'absolute'
+    svg.node.style.left = '0'
+    svg.node.style.top = '0'
 
     svg.on('mousedown', (ev) => {
         const cords = U.getRelativeCords(
