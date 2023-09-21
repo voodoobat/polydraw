@@ -15,20 +15,19 @@ const draw = await polydraw('#image-1', '/public/img.jpg', {
         },
     },
     events: {
-        // onPolygonCreate: (polygon) => {
-        //     console.log('CREATE', polygon, draw)
-        // },
-        // onPolygonChange: (polygon) => {
-        //     console.log('CHANGE', polygon, draw)
-        // },
+        onPolygonCreate: (polygon) => {
+            console.log('CREATE', polygon, draw)
+        },
+        onPolygonChange: (polygon) => {
+            console.log('CHANGE', polygon, draw)
+        },
     },
 })
 
-polydraw('#image-2', '/public/img.jpg', {
-    events: {
-        onPolygonCreate: (polygon) => {
-            draw.placePolygon(polygon)
-            console.log(draw.data)
-        },
-    },
+const draw2 = await polydraw('#image-2', '/public/img.jpg', {})
+
+document.getElementById('copy').addEventListener('click', () => {
+    draw2.data.polygon.forEach((polygon) => {
+        draw.placePolygon(polygon)
+    })
 })
