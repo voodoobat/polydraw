@@ -37,6 +37,7 @@ export const polydraw = async (
                 U.polygon2object(obj, state.scale),
             )
             return {
+                url: image.src,
                 polygon,
             }
         },
@@ -53,12 +54,11 @@ export const polydraw = async (
     image.style.minHeight = `${image.height}px`
 
     svg.addTo(target)
+    svg.size(image.width, image.height)
 
     svg.node.style.position = 'absolute'
     svg.node.style.left = '0'
     svg.node.style.top = '0'
-    svg.node.style.width = '100%'
-    svg.node.style.height = '100%'
 
     svg.on('mousedown', (ev) => {
         const cords = U.getRelativeCords(
@@ -146,6 +146,10 @@ export const polydraw = async (
                 U.polygon2object(changed, state.scale),
             )
         }
+
+        if (state.config.events.onSceneChange) {
+            state.config.events.onSceneChange(state.data)
+        }
     })
 
     svg.on('polygonCreate', (ev) => {
@@ -159,6 +163,10 @@ export const polydraw = async (
             state.config.events.onPolygonCreate(
                 U.polygon2object(created, state.scale),
             )
+        }
+
+        if (state.config.events.onSceneChange) {
+            state.config.events.onSceneChange(state.data)
         }
     })
 
