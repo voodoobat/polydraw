@@ -16,10 +16,10 @@ const draw = await polydraw('#image-1', '/public/img.jpg', {
     },
     events: {
         onPolygonCreate: (polygon) => {
-            console.log('CREATE', polygon, draw)
+            console.log('CREATE', polygon)
         },
         onPolygonChange: (polygon) => {
-            console.log('CHANGE', polygon, draw)
+            console.log('CHANGE', polygon)
         },
     },
 })

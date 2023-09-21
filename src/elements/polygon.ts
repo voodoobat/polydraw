@@ -16,10 +16,12 @@ export const polygon = (svg: Svg, path: PointArray, config: PolygonConfig) => {
         },
     }
 
-    svg.fire('polygonCreate', { uid })
-
     const poly = svg.polygon(path).fill(config.color).opacity(config.opacity)
     setPreventDrawing(poly)
+
+    setTimeout(() => {
+        svg.fire('polygonCreate', { uid })
+    }, 0)
 
     poly.draggable()
     poly.on('dragmove', () => {
@@ -61,7 +63,7 @@ export const polygon = (svg: Svg, path: PointArray, config: PolygonConfig) => {
                 }
             },
             onDragComplete: () => {
-                svg.fire('polygonDragComplete', { uid })
+                svg.fire('polygonDragEnd', { uid })
             },
         })
     })

@@ -47,12 +47,16 @@ export const polydraw = async (
     root.style.position = 'relative'
     root.appendChild(image)
 
+    image.style.width = `${image.width}px`
+    image.style.height = `${image.height}px`
+
     svg.addTo(target)
-    svg.size(image.width, image.height)
 
     svg.node.style.position = 'absolute'
     svg.node.style.left = '0'
     svg.node.style.top = '0'
+    svg.node.style.width = '100%'
+    svg.node.style.height = '100%'
 
     svg.on('mousedown', (ev) => {
         const cords = U.getRelativeCords(
@@ -88,13 +92,6 @@ export const polydraw = async (
                     state.config.elements.polygon,
                 )
                 H.clearScene(state)
-
-                if (state.config.events.onPolygonCreate) {
-                    const polygon = state.polygons[state.polygons.length - 1]
-                    state.config.events.onPolygonCreate(
-                        U.polygon2object(polygon),
-                    )
-                }
             } else {
                 H.continueDrawing(svg, state, cords)
             }
@@ -142,8 +139,10 @@ export const polydraw = async (
             return obj.uid === uid
         })
 
-        if (changed && state.config.events?.onPolygonChange) {
-            state.config.events.onPolygonChange(U.polygon2object(changed))
+        if (changed && state.config.events.onPolygonChange) {
+            state.config.events.onPolygonChange(
+                U.polygon2object(changed, state.scale),
+            )
         }
     })
 
@@ -154,8 +153,10 @@ export const polydraw = async (
             return obj.uid === uid
         })
 
-        if (created && state.config.events?.onPolygonCreate) {
-            state.config.events.onPolygonCreate(U.polygon2object(created))
+        if (created && state.config.events.onPolygonCreate) {
+            state.config.events.onPolygonCreate(
+                U.polygon2object(created, state.scale),
+            )
         }
     })
 
