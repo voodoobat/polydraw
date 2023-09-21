@@ -3,26 +3,26 @@ import { PolydrawConfig } from '../types'
 export const configDefault: PolydrawConfig = {
     elements: {
         point: {
-            size: 5,
-            color: 'blue',
-            opacity: 0.2,
+            size: 8,
+            color: '#087E8B',
+            opacity: 0.25,
         },
         guide: {
             size: 1,
-            color: 'blue',
-            opacity: 0.2,
+            color: '#FF5A5F',
+            opacity: 0.25,
         },
         circuit: {
             size: 1,
-            color: 'gray',
-            opacity: 0.4,
+            color: '#087E8B',
+            opacity: 0.25,
         },
         polygon: {
-            color: 'yellow',
-            opacity: 0.4,
+            color: '#C1839F',
+            opacity: 0.5,
             point: {
-                size: 5,
-                color: 'yellow',
+                size: 8,
+                color: '#C1839F',
                 opacity: 0.5,
             },
         },
@@ -32,7 +32,8 @@ export const configDefault: PolydrawConfig = {
                 padding: '0.5em 1em',
                 lineHeight: '1',
                 cursor: 'pointer',
-                backgroundColor: 'white',
+                backgroundColor: '#E56B6F',
+                color: '#FFFFFF',
                 userSelect: 'none',
             },
         },

@@ -48,7 +48,9 @@ export const polydraw = async (
     root.appendChild(image)
 
     image.style.width = `${image.width}px`
+    image.style.minWidth = `${image.width}px`
     image.style.height = `${image.height}px`
+    image.style.minHeight = `${image.height}px`
 
     svg.addTo(target)
 
