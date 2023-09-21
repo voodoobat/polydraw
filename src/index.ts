@@ -1,7 +1,12 @@
-import { PointArray, SVG } from '@svgdotjs/svg.js'
+import { Point, PointArray, SVG } from '@svgdotjs/svg.js'
 import '@svgdotjs/svg.draggable.js'
 import merge from 'ts-deepmerge'
-import { PolydrawConfig, Polydraw, PolydrawData } from './types'
+import {
+    PolydrawConfig,
+    Polydraw,
+    PolydrawData,
+    PolydrawDataObject,
+} from './types'
 import { configDefault } from './constants'
 import * as U from './utilities'
 import * as E from './elements'
@@ -76,6 +81,7 @@ export const polydraw = async (
                 H.placePolygon(
                     svg,
                     state,
+                    state.pointsArray,
                     state.config.elements.polygon,
                     (uid) => {
                         const changed = state.polygons.find((obj) => {
@@ -83,7 +89,9 @@ export const polydraw = async (
                         })
 
                         if (changed && state.config.events?.onPolygonChange) {
-                            state.config.events.onPolygonChange(changed)
+                            state.config.events.onPolygonChange(
+                                U.polygon2object(changed),
+                            )
                         }
                     },
                 )
@@ -91,7 +99,9 @@ export const polydraw = async (
 
                 if (state.config.events.onPolygonCreate) {
                     const polygon = state.polygons[state.polygons.length - 1]
-                    state.config.events.onPolygonCreate(polygon)
+                    state.config.events.onPolygonCreate(
+                        U.polygon2object(polygon),
+                    )
                 }
             } else {
                 H.continueDrawing(svg, state, cords)
@@ -140,6 +150,20 @@ export const polydraw = async (
     })
 
     return {
+        placePolygon: (polygon: PolydrawDataObject) => {
+            const points = polygon.points.map(({ x, y }) => {
+                const point = new Point(x, y)
+                return point.toArray()
+            }) as PointArray
+
+            H.placePolygon(
+                svg,
+                state,
+                points,
+                state.config.elements.polygon,
+                () => {},
+            )
+        },
         get data() {
             return state.data
         },

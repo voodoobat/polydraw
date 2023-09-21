@@ -1,7 +1,7 @@
 // import { polydraw } from 'polydraw'
 import { polydraw } from '../../dist'
 
-const draw = polydraw('#image-1', '/public/img.jpg', {
+const draw = await polydraw('#image-1', '/public/img.jpg', {
     elements: {
         point: {
             size: 10,
@@ -26,8 +26,9 @@ const draw = polydraw('#image-1', '/public/img.jpg', {
 
 polydraw('#image-2', '/public/img.jpg', {
     events: {
-        onPolygonCreate: () => {
-            console.log('create')
+        onPolygonCreate: (polygon) => {
+            draw.placePolygon(polygon)
+            console.log(draw.data)
         },
     },
 })

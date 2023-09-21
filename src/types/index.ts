@@ -21,8 +21,8 @@ export interface PolydrawConfig {
         menu: MenuConfig
     }
     events: {
-        onPolygonChange: ((polygon: PolygonElement) => void) | null
-        onPolygonCreate: ((polygon: PolygonElement) => void) | null
+        onPolygonChange: ((polygon: PolydrawDataObject) => void) | null
+        onPolygonCreate: ((polygon: PolydrawDataObject) => void) | null
     }
 }
 
