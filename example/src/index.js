@@ -1,5 +1,4 @@
-// import { polydraw } from 'polydraw'
-import { polydraw } from '../../dist'
+import { polydraw } from 'polydraw'
 
 const draw = await polydraw('#image-2', '/public/img.jpg', {})
 polydraw('#image-1', '/public/img.jpg', {
