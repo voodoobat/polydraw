@@ -22,12 +22,14 @@ export interface PolydrawConfig {
         menu: MenuConfig
     }
     events: {
+        onSceneChange: ((data: PolydrawData) => void) | null
         onPolygonChange: ((polygon: PolydrawDataObject) => void) | null
         onPolygonCreate: ((polygon: PolydrawDataObject) => void) | null
     }
 }
 
 export interface PolydrawData {
+    url: string
     polygon: PolydrawDataObject[]
 }
 
