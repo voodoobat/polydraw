@@ -4,6 +4,7 @@ import { getImageScale } from './getImageScale'
 import { getMouseCords } from './getMouseCords'
 import { getRelativeCords } from './getRelativeCords'
 import { getShapeCenter } from './getShapeCenter'
+import { getScaledCords } from './getScaledCords'
 import { getRandomId } from './getRandomId'
 import { isCordsInside } from './isCordsInside'
 import { polygon2object } from './polygon2object'
@@ -13,9 +14,10 @@ export {
     getImage,
     getImageScale,
     getMouseCords,
-    getRelativeCords,
     getRandomId,
+    getRelativeCords,
+    getScaledCords,
+    getShapeCenter,
     isCordsInside,
     polygon2object,
-    getShapeCenter,
 }

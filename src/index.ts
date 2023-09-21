@@ -33,7 +33,9 @@ export const polydraw = async (
             return this.points.map(({ cords }) => cords.toArray()) as PointArray
         },
         get data(): PolydrawData {
-            const polygon = this.polygons.map(U.polygon2object)
+            const polygon = this.polygons.map((obj) =>
+                U.polygon2object(obj, state.scale),
+            )
             return {
                 polygon,
             }
@@ -170,7 +172,12 @@ export const polydraw = async (
                 return point.toArray()
             }) as PointArray
 
-            H.placePolygon(svg, state, points, state.config.elements.polygon)
+            H.placePolygon(
+                svg,
+                state,
+                U.getScaledCords(points, state.scale),
+                state.config.elements.polygon,
+            )
         },
         get data() {
             return state.data
