@@ -1,4 +1,4 @@
-import { Eventobject, Point, PointArray, SVG } from '@svgdotjs/svg.js'
+import { Point, PointArray, SVG } from '@svgdotjs/svg.js'
 import '@svgdotjs/svg.draggable.js'
 import merge from 'ts-deepmerge'
 import {
@@ -87,15 +87,25 @@ export const polydraw = async (
             )
 
             if (isComplete) {
-                H.placePolygon(
-                    svg,
-                    state,
-                    state.pointsArray,
-                    state.config.elements.polygon,
-                )
-                H.clearScene(state)
+                if (state.points.length > 2) {
+                    H.placePolygon(
+                        svg,
+                        state,
+                        state.pointsArray,
+                        state.config.elements.polygon,
+                    )
+                    H.clearScene(state)
+                }
             } else {
-                H.continueDrawing(svg, state, cords)
+                const isDouble = U.isCordsInside(
+                    cords,
+                    state.points[state.points.length - 1].cords,
+                    state.config.elements.point.size,
+                )
+
+                if (!isDouble) {
+                    H.continueDrawing(svg, state, cords)
+                }
             }
         }
     })
@@ -114,6 +124,7 @@ export const polydraw = async (
     })
 
     svg.on('menu', (ev) => {
+        // todo: избавиться от ts-ignore
         // @ts-ignore
         const { cords, uid } = ev.detail
         const menuConfig = state.config.elements.menu
@@ -135,6 +146,7 @@ export const polydraw = async (
     })
 
     svg.on('polygonDragEnd', (ev) => {
+        // todo: избавиться от ts-ignore
         // @ts-ignore
         const { uid } = ev.detail
         const changed = state.polygons.find((obj) => {
@@ -153,6 +165,7 @@ export const polydraw = async (
     })
 
     svg.on('polygonCreate', (ev) => {
+        // todo: избавиться от ts-ignore
         // @ts-ignore
         const { uid } = ev.detail
         const created = state.polygons.find((obj) => {
