@@ -1,11 +1,12 @@
 import { Point, PointArray, Svg } from '@svgdotjs/svg.js'
 import { PointElement, PolygonConfig } from '../types'
-import { getRandomId } from '../utilities'
+import * as U from '../utilities'
 import * as E from '.'
-import { setPreventDrawing } from '../helpers/setPreventDrawing'
+import { setPreventDrawing } from '../helpers'
 
 interface EventTypes {
     onDragComplete?: ((uid: string) => void) | null
+    onRemove?: (uid: string) => void
 }
 
 export const polygon = (
@@ -14,8 +15,11 @@ export const polygon = (
     config: PolygonConfig,
     events: EventTypes = {},
 ) => {
-    const uid = getRandomId()
-    const state: { points: PointElement[]; path: PointArray } = {
+    const uid = U.getRandomId()
+    const state: {
+        points: PointElement[]
+        path: PointArray
+    } = {
         points: [],
         get path() {
             return this.points.map(({ cords }) => cords.toArray()) as PointArray
@@ -23,7 +27,6 @@ export const polygon = (
     }
 
     const poly = svg.polygon(path).fill(config.color).opacity(config.opacity)
-    setPreventDrawing(poly)
 
     poly.draggable()
     poly.on('dragmove', () => {
@@ -33,13 +36,16 @@ export const polygon = (
         })
     })
 
-    if (events.onDragComplete) {
-        poly.on('dragend', () => {
-            if (typeof events.onDragComplete === 'function') {
-                events.onDragComplete(uid)
-            }
+    poly.on('dragend', () => {
+        poly.array().forEach((xy, key) => {
+            state.points[key].update(new Point(...xy))
+            state.points[key].cords = new Point(...xy)
         })
-    }
+
+        if (events.onDragComplete) {
+            events.onDragComplete(uid)
+        }
+    })
 
     state.points = path.map((xy) => {
         return E.point(svg, new Point(xy), config.point, {

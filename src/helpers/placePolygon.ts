@@ -13,6 +13,9 @@ export const placePolygon = (
             onDragComplete: (uid) => {
                 if (onChange) onChange(uid)
             },
+            onRemove: (uid) => {
+                console.log(uid)
+            },
         }),
     )
 }
