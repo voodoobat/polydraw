@@ -1,4 +1,4 @@
-import { Point, PointArray, SVG } from '@svgdotjs/svg.js'
+import { Eventobject, Point, PointArray, SVG } from '@svgdotjs/svg.js'
 import '@svgdotjs/svg.draggable.js'
 import merge from 'ts-deepmerge'
 import {
@@ -84,17 +84,6 @@ export const polydraw = async (
                     state,
                     state.pointsArray,
                     state.config.elements.polygon,
-                    (uid) => {
-                        const changed = state.polygons.find((obj) => {
-                            return obj.uid === uid
-                        })
-
-                        if (changed && state.config.events?.onPolygonChange) {
-                            state.config.events.onPolygonChange(
-                                U.polygon2object(changed),
-                            )
-                        }
-                    },
                 )
                 H.clearScene(state)
 
@@ -144,6 +133,30 @@ export const polydraw = async (
         })
     })
 
+    svg.on('polygonDragEnd', (ev) => {
+        // @ts-ignore
+        const { uid } = ev.detail
+        const changed = state.polygons.find((obj) => {
+            return obj.uid === uid
+        })
+
+        if (changed && state.config.events?.onPolygonChange) {
+            state.config.events.onPolygonChange(U.polygon2object(changed))
+        }
+    })
+
+    svg.on('polygonCreate', (ev) => {
+        // @ts-ignore
+        const { uid } = ev.detail
+        const created = state.polygons.find((obj) => {
+            return obj.uid === uid
+        })
+
+        if (created && state.config.events?.onPolygonCreate) {
+            state.config.events.onPolygonCreate(U.polygon2object(created))
+        }
+    })
+
     window.addEventListener('keyup', (ev: KeyboardEvent) => {
         if (ev.key === 'Escape') {
             H.clearScene(state)
@@ -157,13 +170,7 @@ export const polydraw = async (
                 return point.toArray()
             }) as PointArray
 
-            H.placePolygon(
-                svg,
-                state,
-                points,
-                state.config.elements.polygon,
-                () => {},
-            )
+            H.placePolygon(svg, state, points, state.config.elements.polygon)
         },
         get data() {
             return state.data
