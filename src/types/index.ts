@@ -1,4 +1,4 @@
-import { Point, PointArray } from '@svgdotjs/svg.js'
+import { Point, PointArray, Shape } from '@svgdotjs/svg.js'
 
 export interface Polydraw {
     config: PolydrawConfig
