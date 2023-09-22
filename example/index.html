@@ -29,5 +29,10 @@
     <div class="canvas" id="image-2"></div>
     <div class="canvas" id="image-3"></div>
     <script src="./dist/index.js"></script>
+    <script>
+        const x = polydraw('#image-1', 'http://localhost:5000/example/public/img.jpg', {})
+        const y = x.then()
+        console.log(x)
+    </script>
 </body>
 </html>

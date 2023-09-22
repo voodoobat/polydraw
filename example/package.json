@@ -3,6 +3,6 @@
         "dev": "webpack --watch"
     },
     "dependencies": {
-        "polydraw": "git+https://github.com/voodoobat/polydraw#package"
+        "polydraw": "github:voodoobat/polydraw#package"
     }
 }
