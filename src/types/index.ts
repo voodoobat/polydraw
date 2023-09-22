@@ -1,4 +1,4 @@
-import { Point, PointArray, Shape } from '@svgdotjs/svg.js'
+import { Circle, Point, PointArray, Shape } from '@svgdotjs/svg.js'
 
 export interface Polydraw {
     config: PolydrawConfig
@@ -40,6 +40,7 @@ export interface PolydrawDataObject {
 export interface PointElement {
     uid: string
     cords: Point
+    el: Circle
     update: (cords: Point) => void
     remove: () => void
 }

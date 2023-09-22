@@ -21,25 +21,21 @@ export const polygon = (
         },
     }
 
+    const group = svg.group()
     const poly = svg.polygon(path).fill(config.color).opacity(config.opacity)
+    group.add(poly)
     H.setPreventDrawing(poly)
 
     setTimeout(() => {
         svg.fire('polygonCreate', { uid })
     }, 0)
 
-    poly.draggable()
+    group.draggable()
     poly.on('click', () => {
         H.removeMenu(rootState)
     })
-    poly.on('dragmove', () => {
-        poly.array().forEach((xy, key) => {
-            state.points[key].update(new Point(...xy))
-            state.points[key].cords = new Point(...xy)
-        })
-    })
 
-    poly.on('dragend', () => {
+    group.on('dragend', () => {
         poly.array().forEach((xy, key) => {
             state.points[key].update(new Point(...xy))
             state.points[key].cords = new Point(...xy)
@@ -59,7 +55,7 @@ export const polygon = (
     })
 
     state.points = path.map((xy) => {
-        return E.point(svg, new Point(xy), config.point, {
+        const point = E.point(svg, new Point(xy), config.point, {
             onDrag: (uid, cords) => {
                 const found = state.points.find((point) => {
                     return point.uid === uid
@@ -74,6 +70,10 @@ export const polygon = (
                 svg.fire('polygonDragEnd', { uid })
             },
         })
+
+        group.add(point.el)
+
+        return point
     })
 
     const remove = () => {
