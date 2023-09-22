@@ -1,7 +1,7 @@
-import { Point, Svg } from '@svgdotjs/svg.js'
+import { G, Point, Svg } from '@svgdotjs/svg.js'
 import { getCenteredCords, getRandomId, getRelativeCords } from '../utilities'
 import { PointConfig } from '../types'
-import { setPreventDrawing } from '../helpers/setPreventDrawing'
+import * as H from '../helpers'
 
 interface EventTypes {
     onDrag?: ((uid: string, cords: Point) => void) | null
@@ -23,7 +23,7 @@ export const point = (
     }
 
     if (events.onDrag) {
-        setPreventDrawing(el)
+        H.setPreventDrawing(el)
         el.draggable()
         el.on('dragmove', (ev) => {
             // @ts-ignore
@@ -58,6 +58,7 @@ export const point = (
     return {
         uid,
         cords: state.cords,
+        el,
         update,
         remove,
     }
