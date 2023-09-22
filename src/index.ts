@@ -97,11 +97,13 @@ export const polydraw = async (
                     H.clearScene(state)
                 }
             } else {
-                const isDouble = U.isCordsInside(
-                    cords,
-                    state.points[state.points.length - 1].cords,
-                    state.config.elements.point.size,
-                )
+                const isDouble = state.points.find((point) => {
+                    return U.isCordsInside(
+                        cords,
+                        point.cords,
+                        state.config.elements.point.size,
+                    )
+                })
 
                 if (!isDouble) {
                     H.continueDrawing(svg, state, cords)
