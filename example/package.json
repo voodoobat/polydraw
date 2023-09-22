@@ -1,8 +1,12 @@
 {
     "scripts": {
-        "dev": "webpack --watch"
+        "dev": "webpack --watch",
+        "build": "node build.mjs"
     },
     "dependencies": {
         "polydraw": "git+https://github.com/voodoobat/polydraw#package"
+    },
+    "devDependencies": {
+        "esbuild": "^0.19.3"
     }
 }

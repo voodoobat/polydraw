@@ -29,5 +29,20 @@
     <div class="canvas" id="image-2"></div>
     <div class="canvas" id="image-3"></div>
     <script src="./dist/index.js"></script>
+    <script>
+        polydraw('#image-1', '/public/img.jpg', {
+            events: {
+                onPolygonCreate: (polygon) => {
+                    console.log(polygon)
+                },
+                onPolygonChange: (polygon) => {
+                    console.log(polygon)
+                },
+                onSceneChange: (data) => {
+                    console.log(data)
+                },
+            },
+        })
+    </script>
 </body>
 </html>
