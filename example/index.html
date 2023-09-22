@@ -30,9 +30,30 @@
     <div class="canvas" id="image-3"></div>
     <script src="./dist/index.js"></script>
     <script>
-        const x = polydraw('#image-1', 'http://localhost:5000/example/public/img.jpg', {})
-        const y = x.then()
-        console.log(x)
+        polydraw('#image-1', 'http://localhost:5000/example/public/img.jpg', {}).then((draw) => {
+            console.log(draw)
+
+            draw.placePolygon({
+                "points": [
+                    {
+                        "x": 4714.679300291546,
+                        "y": 572.2089407191448
+                    },
+                    {
+                        "x": 3054.467444120505,
+                        "y": 644.7424684159378
+                    },
+                    {
+                        "x": 3973.225461613217,
+                        "y": 959.0544217687075
+                    },
+                    {
+                        "x": 5730.148688046647,
+                        "y": 1845.5753158406221
+                    }
+                ]
+            })
+        })
     </script>
 </body>
 </html>
