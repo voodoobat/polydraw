@@ -7,7 +7,7 @@ polydraw('#image-1', '/public/img.jpg', {
             draw.placePolygon(polygon)
         },
         onPolygonChange: (polygon) => {
-            draw.placePolygon(polygon)
+            console.log(polygon)
         },
         onSceneChange: (data) => {
             console.log(data)

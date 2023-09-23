@@ -1,8 +1,9 @@
 {
     "scripts": {
-        "dev": "webpack --watch"
+        "dev": "webpack --watch",
+        "build": "webpack"
     },
     "dependencies": {
-        "polydraw": "git+https://github.com/voodoobat/polydraw#package"
+        "polydraw": "github:voodoobat/polydraw#package"
     }
 }
