@@ -45,20 +45,20 @@ export const polydraw = async (
 
     if (!root) return
 
-    root.style.position = 'relative'
     root.appendChild(image)
 
+    // todo: move me into helpers
     image.style.width = `${image.width}px`
     image.style.maxWidth = '100%'
     image.style.minWidth = `${image.width}px`
     image.style.height = `${image.height}px`
     image.style.minHeight = `${image.height}px`
 
+    root.style.position = 'relative'
+    root.style.width = `${root.getBoundingClientRect().width}px`
+
     svg.addTo(target)
     svg.size(image.width, image.height)
-
-    root.style.width = `${image.width}px`
-    root.style.height = `${image.height}px`
 
     svg.node.style.position = 'absolute'
     svg.node.style.left = '0'
