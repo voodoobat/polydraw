@@ -57,6 +57,9 @@ export const polydraw = async (
     svg.addTo(target)
     svg.size(image.width, image.height)
 
+    root.style.width = `${image.width}px`
+    root.style.height = `${image.height}px`
+
     svg.node.style.position = 'absolute'
     svg.node.style.left = '0'
     svg.node.style.top = '0'
