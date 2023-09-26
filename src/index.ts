@@ -33,12 +33,11 @@ export const polydraw = async (
             return this.points.map(({ cords }) => cords.toArray()) as PointArray
         },
         get data(): PolydrawData {
-            const polygon = this.polygons.map((obj) =>
+            const polygons = this.polygons.map((obj) =>
                 U.polygon2object(obj, state.scale),
             )
             return {
-                url: image.src,
-                polygon,
+                polygons,
             }
         },
     }
