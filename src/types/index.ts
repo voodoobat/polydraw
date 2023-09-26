@@ -29,8 +29,7 @@ export interface PolydrawConfig {
 }
 
 export interface PolydrawData {
-    url: string
-    polygon: PolydrawDataObject[]
+    polygons: PolydrawDataObject[]
 }
 
 export interface PolydrawDataObject {
