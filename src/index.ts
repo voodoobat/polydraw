@@ -47,6 +47,8 @@ export const polydraw = async (
     root.style.position = 'relative'
     root.style.width = `${root.getBoundingClientRect().width}px`
 
+    console.log('debug root width', root.getBoundingClientRect().width)
+
     root.appendChild(image)
 
     // todo: move me into helpers
@@ -54,6 +56,8 @@ export const polydraw = async (
     image.style.minWidth = `${image.width}px`
     image.style.height = `${image.height}px`
     image.style.minHeight = `${image.height}px`
+
+    console.log('debug image width', image.width)
 
     svg.addTo(target)
     svg.size(image.width, image.height)
