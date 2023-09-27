@@ -44,11 +44,10 @@ export const polydraw = async (
 
     if (!root) return
 
-    root.appendChild(image)
-
-    root.appendChild(image)
     root.style.position = 'relative'
     root.style.width = `${root.getBoundingClientRect().width}px`
+
+    root.appendChild(image)
 
     // todo: move me into helpers
     image.style.maxWidth = '100%'
