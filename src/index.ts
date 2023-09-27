@@ -46,6 +46,7 @@ export const polydraw = async (
 
     root.style.position = 'relative'
     root.style.width = `${root.getBoundingClientRect().width}px`
+    root.setAttribute('this-is-my-attr', 'this-is-my-value')
 
     console.log('debug root width', root.getBoundingClientRect().width)
 
