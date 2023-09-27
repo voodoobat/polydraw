@@ -187,6 +187,12 @@ export const polydraw = async (
         }
     })
 
+    svg.on('polygonRemove', () => {
+        if (state.config.events.onSceneChange) {
+            state.config.events.onSceneChange(state.data)
+        }
+    })
+
     window.addEventListener('keyup', (ev: KeyboardEvent) => {
         if (ev.key === 'Escape') {
             H.clearScene(state)
