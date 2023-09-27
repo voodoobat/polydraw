@@ -79,6 +79,7 @@ export const polygon = (
     const remove = () => {
         poly.remove()
         state.points.forEach((point) => point.remove())
+        svg.fire('polygonRemove', { uid })
     }
 
     return {
