@@ -2,13 +2,15 @@
 import { polydraw } from '../../dist'
 
 const draw = await polydraw('#image-2', '/public/img.jpg', {})
+
 polydraw('#image-1', '/public/img.jpg', {
+    maxPoints: 4,
     events: {
         onPolygonCreate: (polygon) => {
-            draw.placePolygon(polygon)
+            // draw.placePolygon(polygon)
         },
         onPolygonChange: (polygon) => {
-            draw.placePolygon(polygon)
+            // draw.placePolygon(polygon)
         },
         onSceneChange: (data) => {
             console.log(data)

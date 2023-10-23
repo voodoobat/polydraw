@@ -1,6 +1,7 @@
 import { PolydrawConfig } from '../types'
 
 export const configDefault: PolydrawConfig = {
+    maxPoints: NaN,
     elements: {
         point: {
             size: 8,

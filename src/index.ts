@@ -82,11 +82,12 @@ export const polydraw = async (
         if (isStart) {
             H.startDrawing(svg, state, cords)
         } else {
-            const isComplete = U.isCordsInside(
-                cords,
-                state.points[0].cords,
-                state.config.elements.point.size,
-            )
+            const isComplete =
+                U.isCordsInside(
+                    cords,
+                    state.points[0].cords,
+                    state.config.elements.point.size,
+                ) || state.points.length === state.config.maxPoints
 
             if (isComplete) {
                 if (state.points.length > 2) {

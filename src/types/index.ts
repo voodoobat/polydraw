@@ -14,6 +14,7 @@ export interface Polydraw {
 }
 
 export interface PolydrawConfig {
+    maxPoints: number
     elements: {
         point: PointConfig
         guide: GuideConfig
